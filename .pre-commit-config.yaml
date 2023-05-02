@@ -1,0 +1,56 @@
+fail_fast: true
+files: ^packages/api/
+exclude: '^packages.*gen.*|^packages/api/script|^packages/api/api/router.go'
+repos:
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.1.0
+    hooks:
+    - id: codespell
+      exclude_types: [json]
+      args: [-L connexion, -q 3]
+
+  - repo: https://github.com/tekwizely/pre-commit-golang
+    rev: v1.0.0-rc.1
+    hooks:
+      - id: go-build-repo-mod
+      - id: go-mod-tidy-repo
+      - id: go-vet-repo-mod
+      - id: go-revive-repo-mod
+      # - id: go-structslop-repo-mod
+      - id: go-imports-repo # replaces go-fmt-repo
+      - id: go-critic
+      - id: go-sec-repo-mod
+        args: [-exclude-generated]
+      - id: golangci-lint-repo-mod
+        args: [--fix]
+
+  - repo: https://github.com/marco-c/taskcluster_yml_validator
+    rev: v0.0.7
+    hooks:
+      - id: taskcluster_yml
+
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.1.0
+    hooks:
+      - id: pretty-format-golang
+        args: [--autofix]
+      - id: pretty-format-yaml
+        args: [--autofix, --indent, "2"]
+
+  - repo: meta
+    hooks:
+      - id: check-useless-excludes
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+      - id: fix-encoding-pragma
+
+default_stages: [commit, push]

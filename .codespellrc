@@ -1,0 +1,3 @@
+[codespell]
+skip = *.graphqls,./packages/api/graph,./packages/api/dtos,./packages/api/database,./packages/api/script
+quiet-level = 3
